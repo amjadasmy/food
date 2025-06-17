@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Sri Lanka Food Order</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 650px;
+            margin: 30px auto;
+            padding: 20px;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+        }
+        select, input[type=number] {
+            width: 100%;
+            padding: 7px;
+            font-size: 16px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 15px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+        }
+        .food-image {
+            max-width: 150px;
+            max-height: 100px;
+            margin-top: 10px;
+            border-radius: 8px;
+            object-fit: cover;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Sri Lanka Food Order</h1>
+
+<form id="orderForm">
+    <label for="food">Choose Food Item:</label>
+    <select id="food" required>
+        <option value="" disabled selected>Select a food</option>
+        <option value="kottu">Kottu Roti - LKR 250</option>
+        <option value="rice_and_curry">Rice & Curry - LKR 300</option>
+        <option value="hoppers">Hoppers - LKR 150</option>
+        <option value="string_hoppers">String Hoppers - LKR 180</option>
+        <option value="sambol">Pol Sambol - LKR 100</option>
+    </select>
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" min="1" max="20" value="1" required />
+
+    <button type="submit">Place Order</button>
+</form>
+
+<div id="result" class="result" style="display:none;"></div>
+
+<script>
+    const foodData = {
+        kottu: {
+            price: 250,
+            name: "Kottu Roti",
+            image: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Kottu_roti.JPG"
+        },
+        rice_and_curry: {
+            price: 300,
+            name: "Rice & Curry",
+            image: "https://upload.wikimedia.org/wikipedia/commons/f/fb/Sri_Lankan_Rice_Curry.jpg"
+        },
+        hoppers: {
+            price: 150,
+            name: "Hoppers",
+            image: "https://upload.wikimedia.org/wikipedia/commons/2/20/Appam_hopper.jpg"
+        },
+        string_hoppers: {
+            price: 180,
+            name: "String Hoppers",
+            image: "https://upload.wikimedia.org/wikipedia/commons/6/6a/String_hoppers.jpg"
+        },
+        sambol: {
+            price: 100,
+            name: "Pol Sambol",
+            image: "https://upload.wikimedia.org/wikipedia/commons/9/98/Pol_Sambol_1.JPG"
+        }
+    };
+
+    document.getElementById('orderForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const foodKey = document.getElementById('food').value;
+        const quantity = parseInt(document.getElementById('quantity').value);
+
+        if (!foodKey || quantity <= 0) {
+            alert('Please select a food and enter a valid quantity.');
+            return;
+        }
+
+        const food = foodData[foodKey];
+        const total = food.price * quantity;
+
+        const resultDiv = document.getElementById('result');
+        resultDiv.style.display = 'block';
+
+        resultDiv.innerHTML = `
+            <h3>Order Summary</h3>
+            <img src="${food.image}" alt="${food.name}" class="food-image" />
+            <p><strong>Food Item:</strong> ${food.name}</p>
+            <p><strong>Quantity:</strong> ${quantity}</p>
+            <p><strong>Price per Item:</strong> LKR ${food.price}</p>
+            <p><strong>Total Price:</strong> LKR ${total}</p>
+            <p>Thank you for your order!</p>
+        `;
+    });
+</script>
+
+</body>
+</html>
